@@ -7,13 +7,18 @@ const NonceStore = (redisClient) => {
     return await redisClient.get(`input:current:${input}`);
   };
 
+  const setResult = async (input, nonce) => {
+    return await redisClient.set(`input:result:${input}`, nonce);
+  };
+
   const getResult = async (input) => {
-    return await redisClient.get(`input:end:${input}`);
+    return await redisClient.get(`input:result:${input}`);
   };
 
   return {
     setCurrentNonce,
     getCurrentNonce,
+    setResult,
     getResult,
   };
 };
