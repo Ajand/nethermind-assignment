@@ -12,8 +12,43 @@ body {
   );
 }
 
+input {
+  outline: none;
+}
+
 .main {
   min-height: 100vh;
+}
+
+.content {
+  width: 100%;
+  height: calc(100vh - 150px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.panel {
+  max-width: 800px;
+  width: 90%;
+  background: rgba(0, 14, 41, 0.6);
+}
+
+.input-background {
+  background: rgba(25, 25, 25, 0.5);
+}
+
+.btn {
+}
+
+.btn-red {
+  background: #9a1948;
+  color: white;
+  transition: 200ms;
+}
+
+.btn-red:hover {
+  background: #8c113e;
 }
 
 @tailwind base;
