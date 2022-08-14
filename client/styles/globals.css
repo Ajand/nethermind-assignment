@@ -10,6 +10,9 @@ body {
     #ff1361 67%,
     #fff800 100%
   );
+  background-size: 200% 200%;
+  background-position: center;
+
 }
 
 input {
@@ -42,7 +45,6 @@ input {
   overflow: auto;
 }
 
-
 .input-background {
   background: rgba(25, 25, 25, 0.5);
 }
@@ -58,6 +60,11 @@ input {
 
 .btn-red:hover {
   background: #8c113e;
+}
+
+.btn-disabled {
+  background: #d3d3d3;
+  cursor: not-allowed;
 }
 
 .btn-secondary {
