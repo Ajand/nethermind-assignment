@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { MyQueProvider } from "../lib/MyQueProvider";
 
 const client = new ApolloClient({
   // TODO change this url to .env file
@@ -18,7 +19,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ApolloProvider client={client}>
-        <Component {...pageProps} />
+        <MyQueProvider>
+          <Component {...pageProps} />
+        </MyQueProvider>
       </ApolloProvider>
     </>
   );

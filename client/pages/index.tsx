@@ -1,11 +1,18 @@
 import type { NextPage } from "next";
-import { useState } from "react";
+import { useRouter } from "next/router";
+
+import { useState, useContext } from "react";
 import { ethers } from "ethers";
 import Navbar from "../components/Navbar";
 import { gql, useMutation } from "@apollo/client";
+import { MyQueContext } from "../lib/MyQueProvider";
 
 const Home: NextPage = () => {
   const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const { add } = useContext(MyQueContext);
 
   const ADD_TO_QUEUE = gql`
     mutation AddToQueue($value: String!) {
@@ -50,21 +57,24 @@ const Home: NextPage = () => {
             <div className="flex justify-center">
               <button
                 className={`${
-                  isValid() ? "btn btn-red" : "btn-disabled"
+                  !loading && isValid() ? "btn btn-red" : "btn-disabled"
                 } p-4 mt-4 text-center`}
                 onClick={() => {
-                  if (isValid()) {
+                  if (isValid() || !loading) {
+                    setLoading(true);
                     addToQueue({ variables: { value: input } })
                       .then((r) => {
-                        console.log(r);
+                        add(input);
+                        router.push("/que");
+                        setLoading(false);
                       })
                       .catch((err) => {
-                        console.log(err);
+                        setLoading(false);
                       });
                   }
                 }}
               >
-                Find The Nonce
+                {!loading ? "Find The Nonce" : "Adding to Que ..."}
               </button>
             </div>
           </div>
