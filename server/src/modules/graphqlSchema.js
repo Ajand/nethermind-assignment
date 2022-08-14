@@ -6,17 +6,40 @@ const { gql } = require("apollo-server");
 const typeDefs = gql`
   # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
 
-  # This "Book" type defines the queryable fields for every book in our data source.
-  type Book {
-    title: String
-    author: String
+  enum WorkerStatus {
+    PROCESSING
+    EMPTY
   }
 
-  # The "Query" type is special: it lists all of the available queries that
-  # clients can execute, along with the return type for each. In this
-  # case, the "books" query returns an array of zero or more Books (defined above).
+  type Worker {
+    id: String!
+    status: WorkerStatus!
+  }
+
+  enum InputCalculationSatus {
+    QUEUED
+    PROCESSING
+    FINISHED
+    STOPPED
+  }
+
+  type InputCalculation {
+    value: String!
+    lastProcessedNonce: String
+    resultNonce: String
+    status: InputCalculationSatus
+  }
+
   type Query {
-    books: [Book]
+    inputCalculations(ids: [String!]!): [InputCalculation!]!
+    inputCalculation(id: String): InputCalculation
+    workers: [Worker!]!
+  }
+
+  type Mutation {
+    addToQueue(value: String!): String!
+    cancelQueuedItem(valued: String!): String!
+    emptyWorker(id: String!): String!
   }
 `;
 
