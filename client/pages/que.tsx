@@ -121,7 +121,7 @@ const Que: NextPage = () => {
                             {inputCalc.status == "Finished" ||
                             inputCalc.status == "Stopped" ? (
                               <button
-                                onClick={() => refetch()}
+                                onClick={() => remove(inputCalc.value)}
                                 className="btn-red p-1 px-3 text-sm"
                               >
                                 Delete

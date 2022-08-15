@@ -2,7 +2,7 @@ import { createContext, useState, useEffect, useCallback } from "react";
 
 export const MyQueContext = createContext({
   add: (input) => {},
-  remove: () => {},
+  remove: (input) => {},
   que: new Set(),
 });
 
@@ -24,7 +24,7 @@ export const MyQueProvider = ({ children }) => {
   });
 
   // remove from my que
-  const remove = useCallback(async () => {
+  const remove = useCallback(async (input) => {
     const nQue = new Set(que);
     nQue.delete(input);
     setQue(nQue);
