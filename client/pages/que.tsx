@@ -4,6 +4,7 @@ import { useState, useContext, useEffect } from "react";
 import { MyQueContext } from "../lib/MyQueProvider";
 import { useQuery, gql, useMutation } from "@apollo/client";
 import { ethers } from "ethers";
+import { InputCalculation } from "../lib/interfaces";
 
 const INPUT_CALCULATIONS = gql`
   query InputCalculations($values: [String!]!) {
@@ -29,14 +30,6 @@ const CANCEL_QUEUED_ITEM = gql`
   }
 `;
 
-interface InputCalculation {
-  value: string;
-  lastProcessedNonce: string;
-  resultNonce: string;
-  status: string;
-  jobId: string;
-}
-
 const Que: NextPage = () => {
   const { que, remove } = useContext(MyQueContext);
 
@@ -44,14 +37,11 @@ const Que: NextPage = () => {
     INPUT_CALCULATIONS,
     {
       variables: { values: Array.from(que) },
-      pollInterval: 1000,
     }
   );
 
   const [stopProcessing] = useMutation(STOP_PROCESSING);
   const [cancelItem] = useMutation(CANCEL_QUEUED_ITEM);
-
-  console.log(error);
 
   useEffect(() => {
     startPolling(500);
@@ -59,6 +49,18 @@ const Que: NextPage = () => {
       stopPolling();
     };
   }, [startPolling, stopPolling]);
+
+  if (error)
+    return (
+      <main className="main">
+        <Navbar />
+        <div className="content">
+          <div className="panel-2 p-10 text-white text-lg">
+            Something unexpected happened
+          </div>
+        </div>
+      </main>
+    );
 
   return (
     <div>

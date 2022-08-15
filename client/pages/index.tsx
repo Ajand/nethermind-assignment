@@ -59,19 +59,15 @@ const Home: NextPage = () => {
                   !loading && isValid() ? "btn btn-red" : "btn-disabled"
                 } p-4 mt-4 text-center`}
                 onClick={() => {
-                  if (isValid() || !loading) {
+                  if (isValid() && !loading) {
                     setLoading(true);
                     addToQueue({ variables: { value: input } })
                       .then((r) => {
-                        console.log("hi");
-
                         add(input);
                         router.push("/que");
                         setLoading(false);
                       })
                       .catch((err) => {
-                        console.log(err);
-
                         setLoading(false);
                       });
                   }
