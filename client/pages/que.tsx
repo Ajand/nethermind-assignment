@@ -2,7 +2,7 @@ import Navbar from "../components/Navbar";
 import type { NextPage } from "next";
 import { useState, useContext, useEffect } from "react";
 import { MyQueContext } from "../lib/MyQueProvider";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql, useMutation } from "@apollo/client";
 import { ethers } from "ethers";
 
 const INPUT_CALCULATIONS = gql`
@@ -14,6 +14,12 @@ const INPUT_CALCULATIONS = gql`
       status
       jobId
     }
+  }
+`;
+
+const STOP_PROCESSING = gql`
+  mutation StopProcessing($value: String!) {
+    stopProcessing(value: $value)
   }
 `;
 
@@ -35,6 +41,8 @@ const Que: NextPage = () => {
       pollInterval: 1000,
     }
   );
+
+  const [stopProcessing] = useMutation(STOP_PROCESSING);
 
   console.log(error);
 
@@ -90,7 +98,14 @@ const Que: NextPage = () => {
                           </td>
                           <td>
                             {inputCalc.status == "Processing" ? (
-                              <button className="btn-red p-1 px-3 text-sm">
+                              <button
+                                onClick={() => {
+                                  stopProcessing({
+                                    variables: { value: inputCalc.value },
+                                  });
+                                }}
+                                className="btn-red p-1 px-3 text-sm"
+                              >
                                 Stop
                               </button>
                             ) : (
