@@ -23,6 +23,12 @@ const STOP_PROCESSING = gql`
   }
 `;
 
+const CANCEL_QUEUED_ITEM = gql`
+  mutation CancelQueuedItem($value: String!) {
+    cancelQueuedItem(value: $value)
+  }
+`;
+
 interface InputCalculation {
   value: string;
   lastProcessedNonce: string;
@@ -43,6 +49,7 @@ const Que: NextPage = () => {
   );
 
   const [stopProcessing] = useMutation(STOP_PROCESSING);
+  const [cancelItem] = useMutation(CANCEL_QUEUED_ITEM);
 
   console.log(error);
 
@@ -112,7 +119,14 @@ const Que: NextPage = () => {
                               <></>
                             )}
                             {inputCalc.status == "Queued" ? (
-                              <button className="btn-red p-1 px-3 text-sm">
+                              <button
+                                onClick={() => {
+                                  cancelItem({
+                                    variables: { value: inputCalc.value },
+                                  });
+                                }}
+                                className="btn-red p-1 px-3 text-sm"
+                              >
                                 Cancel
                               </button>
                             ) : (
