@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-
 import { useState, useContext } from "react";
 import { ethers } from "ethers";
 import Navbar from "../components/Navbar";
@@ -64,11 +63,15 @@ const Home: NextPage = () => {
                     setLoading(true);
                     addToQueue({ variables: { value: input } })
                       .then((r) => {
+                        console.log("hi");
+
                         add(input);
                         router.push("/que");
                         setLoading(false);
                       })
                       .catch((err) => {
+                        console.log(err);
+
                         setLoading(false);
                       });
                   }
