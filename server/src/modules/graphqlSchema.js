@@ -7,38 +7,42 @@ const typeDefs = gql`
   # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
 
   enum WorkerStatus {
-    PROCESSING
-    EMPTY
+    Processing
+    Empty
   }
 
   type Worker {
     id: String!
     status: WorkerStatus!
+    jobId: String
+    input: InputCalculation
   }
 
-  enum InputCalculationSatus {
-    QUEUED
-    PROCESSING
-    FINISHED
-    STOPPED
+  enum InputCalculationStatus {
+    Queued
+    Processing
+    Finished
+    Stopped
   }
 
   type InputCalculation {
     value: String!
     lastProcessedNonce: String
     resultNonce: String
-    status: InputCalculationSatus
+    status: InputCalculationStatus
+    jobId: String
   }
 
   type Query {
-    inputCalculations(ids: [String!]!): [InputCalculation!]!
-    inputCalculation(id: String): InputCalculation
+    inputCalculations(values: [String!]!): [InputCalculation!]!
+    inputCalculation(value: String): InputCalculation
     workers: [Worker!]!
   }
 
   type Mutation {
     addToQueue(value: String!): String!
-    cancelQueuedItem(valued: String!): String!
+    cancelQueuedItem(value: String!): String!
+    stopProcessing(value: String!): String!
     emptyWorker(id: String!): String!
   }
 `;
