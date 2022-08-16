@@ -1,7 +1,8 @@
 const { Worker } = require("node:worker_threads");
 
-module.exports = (filename) =>
-  Array(4)
+/// TODO add worker amount customization
+module.exports = (filename) => {
+  const workers = Array(4)
     .fill(0)
     .map((v, i) => {
       const worker = new Worker(filename, {
@@ -16,3 +17,12 @@ module.exports = (filename) =>
       });
       return worker;
     });
+  return {
+    workers,
+    stopJob: (value) => {
+      workers.forEach((worker) => {
+        worker.postMessage(`stop:${value}`);
+      });
+    },
+  };
+};
