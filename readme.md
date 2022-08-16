@@ -14,9 +14,9 @@ cd server && yarn && node index
 ### client
 
 ```bash
-cd server && yarn && node index
+cd client && yarn && yarn dev
 ```
 
 ## Architecture
 
-[![Arcitecture.png](https://i.postimg.cc/xCPHGvkf/Arcitecture.png)](https://postimg.cc/qhzz4CXS)
+[![Arch.png](https://i.postimg.cc/vHxkQhcx/Arch.png)](https://postimg.cc/mtR8jQ3T)
