@@ -12,7 +12,6 @@ body {
   );
   background-size: 200% 200%;
   background-position: center;
-
 }
 
 input {
@@ -79,6 +78,22 @@ input {
 .table-row-backgorund {
   background: rgba(50, 50, 50, 0.6);
   border-bottom: 1px solid #6e5169;
+}
+
+.table-result-background {
+  background: rgba(109, 109, 109, 0.4);
+  border-bottom: 1px solid #6e5169;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: #fff800;
+  border-radius: 25px;
+}
+::-webkit-scrollbar-track {
+  border-radius: 10px;
 }
 
 th,

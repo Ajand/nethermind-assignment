@@ -77,7 +77,7 @@ const Workers: NextPage = () => {
 
                 <tbody>
                   {data.workers.map((worker: Worker) => (
-                    <tr id={worker.id} className="table-row-backgorund">
+                    <tr key={worker.id} className="table-row-backgorund">
                       <td>{worker.id}</td>
                       <td className="text-xs">
                         {worker.status === "Processing"

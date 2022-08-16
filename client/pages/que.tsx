@@ -90,63 +90,83 @@ const Que: NextPage = () => {
                   <tbody>
                     {data.inputCalculations.map(
                       (inputCalc: InputCalculation) => (
-                        <tr
-                          className="table-row-backgorund"
-                          key={inputCalc.value}
-                        >
-                          <td className="text-xs">{inputCalc.value}</td>
-                          <td className="text-xs">{inputCalc.status}</td>
-                          <td className="text-xs">
-                            {ethers.BigNumber.from(inputCalc.resultNonce).gte(
-                              ethers.BigNumber.from(
-                                inputCalc.lastProcessedNonce
+                        <>
+                          <tr
+                            className="table-row-backgorund"
+                            key={inputCalc.value}
+                          >
+                            <td className="text-xs">{inputCalc.value}</td>
+                            <td className="text-xs">{inputCalc.status}</td>
+                            <td className="text-xs">
+                              {ethers.BigNumber.from(inputCalc.resultNonce).gte(
+                                ethers.BigNumber.from(
+                                  inputCalc.lastProcessedNonce
+                                )
                               )
-                            )
-                              ? inputCalc.resultNonce
-                              : inputCalc.lastProcessedNonce}
-                          </td>
-                          <td>
-                            {inputCalc.status == "Processing" ? (
-                              <button
-                                onClick={() => {
-                                  stopProcessing({
-                                    variables: { value: inputCalc.value },
-                                  });
-                                }}
-                                className="btn-red p-1 px-3 text-sm"
-                              >
-                                Stop
-                              </button>
-                            ) : (
-                              <></>
-                            )}
-                            {inputCalc.status == "Queued" ? (
-                              <button
-                                onClick={() => {
-                                  cancelItem({
-                                    variables: { value: inputCalc.value },
-                                  });
-                                }}
-                                className="btn-red p-1 px-3 text-sm"
-                              >
-                                Cancel
-                              </button>
-                            ) : (
-                              <></>
-                            )}
-                            {inputCalc.status == "Finished" ||
-                            inputCalc.status == "Stopped" ? (
-                              <button
-                                onClick={() => remove(inputCalc.value)}
-                                className="btn-red p-1 px-3 text-sm"
-                              >
-                                Delete
-                              </button>
-                            ) : (
-                              <></>
-                            )}
-                          </td>
-                        </tr>
+                                ? inputCalc.resultNonce
+                                : inputCalc.lastProcessedNonce}
+                            </td>
+                            <td>
+                              {inputCalc.status == "Processing" ? (
+                                <button
+                                  onClick={() => {
+                                    stopProcessing({
+                                      variables: { value: inputCalc.value },
+                                    });
+                                  }}
+                                  className="btn-red p-1 px-3 text-sm"
+                                >
+                                  Stop
+                                </button>
+                              ) : (
+                                <></>
+                              )}
+                              {inputCalc.status == "Queued" ? (
+                                <button
+                                  onClick={() => {
+                                    cancelItem({
+                                      variables: { value: inputCalc.value },
+                                    });
+                                  }}
+                                  className="btn-red p-1 px-3 text-sm"
+                                >
+                                  Cancel
+                                </button>
+                              ) : (
+                                <></>
+                              )}
+                              {inputCalc.status == "Finished" ||
+                              inputCalc.status == "Stopped" ? (
+                                <button
+                                  onClick={() => remove(inputCalc.value)}
+                                  className="btn-red p-1 px-3 text-sm"
+                                >
+                                  Delete
+                                </button>
+                              ) : (
+                                <></>
+                              )}
+                            </td>
+                          </tr>
+                          {inputCalc.status == "Finished" && (
+                            <tr className="table-result-background">
+                              <td className="text-sm text-bold text-yellow-400" colSpan={5}>
+                                Result:{" "}
+                                {ethers.utils.keccak256(
+                                  ethers.BigNumber.from(
+                                    "0x" + String(inputCalc.value)
+                                  )
+                                    .add(
+                                      ethers.BigNumber.from(
+                                        inputCalc.resultNonce
+                                      )
+                                    )
+                                    .toHexString()
+                                )}{" "}
+                              </td>
+                            </tr>
+                          )}
+                        </>
                       )
                     )}
                   </tbody>
